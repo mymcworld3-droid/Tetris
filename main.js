@@ -283,16 +283,17 @@ function arenaSweep() {
       if (arena[y][x] === 0) continue outer;
     }
 
-    //🔥 新增特效：在消除的該排產生粒子
+    //🔥 改良特效：在消除的該排產生更有爆發力、大小不一的粒子
     for (let x = 0; x < arena[y].length; x++) {
       const color = colors[arena[y][x]];
-      for (let i = 0; i < 5; i++) { // 每個方格產生 5 個粒子
+      for (let i = 0; i < 8; i++) { // 粒子數量增加
         particles.push({
           x: x + 0.5,
           y: y + 0.5,
-          vx: (Math.random() - 0.5) * 0.8,
-          vy: (Math.random() - 0.5) * 0.8,
+          vx: (Math.random() - 0.5) * 1.5, // 往左右噴濺
+          vy: (Math.random() - 0.5) * 1.5 - 0.5, // 帶有往上拋的初速
           life: 1.0,
+          size: 0.3 + Math.random() * 0.4, // 隨機初始大小
           color: color
         });
       }
@@ -305,6 +306,9 @@ function arenaSweep() {
   }
 
   if (rowCount > 0) {
+    triggerShake(); //🔥 新增：消除時觸發強烈震動
+    flashAlpha = 0.8; //🔥 新增：觸發螢幕白光閃爍特效
+
     const points = [0, 100, 300, 500, 800];
     score += points[rowCount];
     const newLevel = Math.floor(score / 500);
