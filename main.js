@@ -22,6 +22,7 @@ function triggerShake() {
   void canvas.offsetWidth; // 觸發瀏覽器重繪，以便能重複播放動畫
   canvas.classList.add("shake");
 }
+
 const scoreElement = document.getElementById("score");
 const levelElement = document.getElementById("level");
 const highscoreElement = document.getElementById("highscore");
@@ -225,6 +226,7 @@ function playerReset() {
   }
 }
 
+// 修正：補回 playerDrop
 function playerDrop() {
   player.pos.y++;
   if (collide(arena, player)) {
@@ -236,6 +238,7 @@ function playerDrop() {
   dropCounter = 0;
 }
 
+// 修正：只保留這個有微震動特效的 hardDrop
 function hardDrop() {
   if (isPaused) return;
   while (!collide(arena, player)) player.pos.y++;
