@@ -61,13 +61,33 @@ function drawMatrix(matrix, offset, ctx = context, isGhost = false) {
       if (value !== 0) {
         ctx.fillStyle = colors[value] || "#FFF";
         if (isGhost) ctx.globalAlpha = 0.3;
+        
+        // 繪製基本底色
         ctx.fillRect(x + offset.x, y + offset.y, 1, 1);
+        
+        // 加入 3D 立體邊框效果 (僅在非殘影時顯示)
+        if (!isGhost) {
+          // 頂部與左側高光
+          ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
+          ctx.fillRect(x + offset.x, y + offset.y, 1, 0.12);
+          ctx.fillRect(x + offset.x, y + offset.y, 0.12, 1);
+          
+          // 底部與右側陰影
+          ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
+          ctx.fillRect(x + offset.x, y + offset.y + 0.88, 1, 0.12);
+          ctx.fillRect(x + offset.x + 0.88, y + offset.y, 0.12, 1);
+          
+          // 黑色細邊框加強輪廓
+          ctx.lineWidth = 0.05;
+          ctx.strokeStyle = "rgba(0, 0, 0, 0.8)";
+          ctx.strokeRect(x + offset.x, y + offset.y, 1, 1);
+        }
+        
         if (isGhost) ctx.globalAlpha = 1.0;
       }
     });
   });
 }
-
 function getGhostY(player) {
   const ghost = { pos: { x: player.pos.x, y: player.pos.y }, matrix: player.matrix };
   while (!collide(arena, ghost)) ghost.pos.y++;
