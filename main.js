@@ -67,7 +67,12 @@ function drawMatrix(matrix, offset, ctx = context, isGhost = false) {
     row.forEach((value, x) => {
       if (value !== 0) {
         ctx.fillStyle = colors[value] || "#FFF";
-        if (isGhost) ctx.globalAlpha = 0.3;
+        
+        //🔥 新增特效：讓殘影有「呼吸燈」般的透明度閃爍效果
+        if (isGhost) {
+          const pulse = 0.15 + Math.abs(Math.sin(performance.now() / 250)) * 0.15;
+          ctx.globalAlpha = pulse;
+        }
         
         // 繪製基本底色
         ctx.fillRect(x + offset.x, y + offset.y, 1, 1);
@@ -95,6 +100,7 @@ function drawMatrix(matrix, offset, ctx = context, isGhost = false) {
     });
   });
 }
+
 function getGhostY(player) {
   const ghost = { pos: { x: player.pos.x, y: player.pos.y }, matrix: player.matrix };
   while (!collide(arena, ghost)) ghost.pos.y++;
