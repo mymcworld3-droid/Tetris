@@ -225,16 +225,14 @@ function playerReset() {
   }
 }
 
-function hardDrop() {
-  if (isPaused) return;
-  while (!collide(arena, player)) player.pos.y++;
-  player.pos.y--;
-  
-  triggerShake(); //🔥 新增：落地瞬間產生打擊感的微震動
-  
-  merge(arena, player);
-  arenaSweep();
-  playerReset();
+function playerDrop() {
+  player.pos.y++;
+  if (collide(arena, player)) {
+    player.pos.y--;
+    merge(arena, player);
+    arenaSweep();
+    playerReset();
+  }
   dropCounter = 0;
 }
 
@@ -242,6 +240,9 @@ function hardDrop() {
   if (isPaused) return;
   while (!collide(arena, player)) player.pos.y++;
   player.pos.y--;
+  
+  triggerShake(); //🔥 新增：落地瞬間產生打擊感的微震動
+  
   merge(arena, player);
   arenaSweep();
   playerReset();
