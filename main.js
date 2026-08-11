@@ -125,22 +125,33 @@ function draw() {
   drawMatrix(player.matrix, { x: player.pos.x, y: ghostY }, context, true);
   drawMatrix(player.matrix, player.pos);
 
-  //🔥 新增特效：繪製與更新粒子
+  //🔥 改良特效：加入重力與縮放的粒子系統
   for (let i = particles.length - 1; i >= 0; i--) {
     let p = particles[i];
     context.fillStyle = p.color;
     context.globalAlpha = Math.max(0, p.life);
-    // 繪製微小的粒子方塊
-    context.fillRect(p.x - 0.2, p.y - 0.2, 0.4, 0.4);
+    
+    // 繪製縮放粒子
+    context.fillRect(p.x - p.size / 2, p.y - p.size / 2, p.size, p.size);
     context.globalAlpha = 1.0;
 
-    // 更新粒子位置與生命週期
+    // 更新粒子位置與物理特性
+    p.vy += 0.04; // 加上重力往下掉
     p.x += p.vx;
     p.y += p.vy;
-    p.life -= 0.05; // 數字越大消失越快
+    p.size *= 0.95; // 逐漸縮小
+    p.life -= 0.03; // 消失速度
+    
     if (p.life <= 0) {
       particles.splice(i, 1);
     }
+  }
+
+  //🔥 新增特效：消除時的白光閃爍覆蓋
+  if (flashAlpha > 0) {
+    context.fillStyle = `rgba(255, 255, 255, ${flashAlpha})`;
+    context.fillRect(0, 0, 10, 20); // 10,20 是方塊座標系的總寬高
+    flashAlpha -= 0.05;
   }
 }
 
