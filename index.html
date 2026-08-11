@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>俄羅斯方塊</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>俄羅斯方塊</h1>
+  <h2>
+    分數：<span id="score">0</span>　
+    等級：<span id="level">0</span>　
+    最高分：<span id="highscore">0</span>
+  </h2>
+  <div class="game-layout">
+    <div class="controls">
+      <button id="rotateBtn">⟳ 旋轉</button>
+      <button id="dropBtn">⬇ 下落</button>
+      <button id="pauseBtn">⏸ 暫停</button>
+    </div>
+    <canvas id="game" width="200" height="400"></canvas>
+    <div class="preview-area">
+      <h3>下一個方塊</h3>
+      <canvas id="preview" width="80" height="80"></canvas>
+    </div>
+  </div>
+  <script type="module" src="main.js"></script>
+</body>
+</html>
