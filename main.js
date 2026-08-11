@@ -14,7 +14,14 @@ let score = 0, level = 0;
 let dropInterval = 1000;
 const minDropInterval = 100;
 let particles = []; //🔥 儲存特效粒子的陣列
+let flashAlpha = 0; //🔥 新增：消除時的全螢幕閃爍值
 
+//🔥 新增：觸發畫面震動
+function triggerShake() {
+  canvas.classList.remove("shake");
+  void canvas.offsetWidth; // 觸發瀏覽器重繪，以便能重複播放動畫
+  canvas.classList.add("shake");
+}
 const scoreElement = document.getElementById("score");
 const levelElement = document.getElementById("level");
 const highscoreElement = document.getElementById("highscore");
